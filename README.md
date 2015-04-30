@@ -9,6 +9,8 @@ Open with Finder to execute, or in the terminal. If it can determine a location,
 ## Notes
 This is a quick and dirty example. I make no guarantees or warranties as to its accuracy, stability or compatibility (it should work with 10.7 and 10.8, but I have only tested it on 10.7). Feel free to do with it as you wish.
 
+Mateusz Szlosek: I've added location name to the output using google maps api.
+
 ## Changelog
 ### 1.02
  - Fixed missing `@autoreleasepool`. Shouldn't be any practical changes, but it's good form.
