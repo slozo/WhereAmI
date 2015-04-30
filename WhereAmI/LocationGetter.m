@@ -48,14 +48,13 @@
     NSTimeInterval ageInSeconds = -[newLocation.timestamp timeIntervalSinceNow];
     if (ageInSeconds > 60.0) return;   // Ignore data more than a minute old
     
+    [self fetchLocation:newLocation.coordinate.latitude longtitude:newLocation.coordinate.longitude];
     IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
     IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
     IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
     IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
     
     [self.manager stopUpdatingLocation];
-    self.exitCode = 0;
-    self.shouldExit = 1;
 }
 
 -(BOOL)isWifiEnabled {
@@ -80,6 +79,46 @@
        
     self.exitCode = 1;
     self.shouldExit = 1;
+}
+
+-(void)fetchLocation:(double)latitude longtitude:(double)longtitude
+{
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    NSString *mapsString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&sensor=true",latitude, longtitude];
+    
+    
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:mapsString]
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (! error) {
+            
+            NSError *jsonError = nil;
+            
+            id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+            
+            if (! jsonError) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^ {
+                    
+                });
+                
+                IFPrint(@"Location: %@",json[@"results"][0][@"formatted_address"]);
+                self.exitCode = 0;
+                self.shouldExit = 1;
+                
+            }
+        }
+        else {
+            IFPrint(@"Error getting location name");
+            dispatch_async(dispatch_get_main_queue(), ^ {
+                self.exitCode = 1;
+                self.shouldExit = 1;
+            });
+        }
+    }];
+    
+    [dataTask resume];
 }
 
 // NSLog replacement from http://stackoverflow.com/a/3487392/1376063

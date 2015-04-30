@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D42843DD15D432D00088CC91 /* WhereAmI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = WhereAmI; path = whereami; sourceTree = BUILT_PRODUCTS_DIR; };
+		D42843DD15D432D00088CC91 /* whereami */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = whereami; sourceTree = BUILT_PRODUCTS_DIR; };
 		D42843E115D432D00088CC91 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D42843E415D432D00088CC91 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D42843E715D432D10088CC91 /* WhereAmI-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhereAmI-Prefix.pch"; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 		D42843DE15D432D00088CC91 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D42843DD15D432D00088CC91 /* WhereAmI */,
+				D42843DD15D432D00088CC91 /* whereami */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,7 +103,7 @@
 			);
 			name = WhereAmI;
 			productName = WhereAmI;
-			productReference = D42843DD15D432D00088CC91 /* WhereAmI */;
+			productReference = D42843DD15D432D00088CC91 /* whereami */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
