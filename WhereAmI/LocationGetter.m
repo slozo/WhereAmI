@@ -9,6 +9,11 @@
 #import "LocationGetter.h"
 #import <CoreWLAN/CoreWLAN.h>
 
+@interface LocationGetter()
+@property (atomic, assign) BOOL logged;
+
+@end
+
 @implementation LocationGetter
 
 -(id)init {
@@ -45,16 +50,22 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSTimeInterval ageInSeconds = -[newLocation.timestamp timeIntervalSinceNow];
-    if (ageInSeconds > 60.0) return;   // Ignore data more than a minute old
-    
-    [self fetchLocation:newLocation.coordinate.latitude longtitude:newLocation.coordinate.longitude];
-    IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
-    IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
-    IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
-    IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
-    
-    [self.manager stopUpdatingLocation];
+    if (!self.logged)
+    {
+        self.logged = YES;
+        NSTimeInterval ageInSeconds = -[newLocation.timestamp timeIntervalSinceNow];
+        if (ageInSeconds > 60.0) return;   // Ignore data more than a minute old
+        
+        [self.manager stopUpdatingLocation];
+        
+        [self fetchLocation:newLocation.coordinate.latitude longtitude:newLocation.coordinate.longitude];
+        
+        IFPrint(@"Latitude: %f", newLocation.coordinate.latitude);
+        IFPrint(@"Longitude: %f", newLocation.coordinate.longitude);
+        IFPrint(@"Accuracy (m): %f", newLocation.horizontalAccuracy);
+        IFPrint(@"Timestamp: %@", [NSDateFormatter localizedStringFromDate:newLocation.timestamp dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterLongStyle]);
+    }
+
 }
 
 -(BOOL)isWifiEnabled {
